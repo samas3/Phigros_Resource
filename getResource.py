@@ -222,7 +222,6 @@ def run(path, c):
         conv_name.conv('Chart_HD')
         conv_name.conv('Chart_IN')
         conv_name.conv('Chart_AT')
-        conv_name.conv('Chart_EZ')
     if config['music']:
         conv_name.conv('music')
     if config['illustration']:

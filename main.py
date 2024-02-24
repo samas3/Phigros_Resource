@@ -2,7 +2,7 @@ import atexit
 from configparser import ConfigParser
 import tkinter
 import gameInformation
-import resource
+import getResource
 
 path = tkinter.Entry()
 path.insert(0, 'com.PigeonGames.Phigros.apk')
@@ -49,7 +49,7 @@ def callback():
     for key, value in d.items():
         config[key] = value.get()
     gameInformation.run(path.get())
-    resource.run(path.get(), config)
+    getResource.run(path.get(), config)
 
 
 tkinter.Button(text="执行", command = callback).pack()

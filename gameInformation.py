@@ -97,7 +97,7 @@ def run(path):
 
     print(table)
 
-    with open('info.csv', 'w', encoding='utf-8') as f:
+    with open('info.csv', 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         for i in table:
             writer.writerow(i)
