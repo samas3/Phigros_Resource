@@ -82,6 +82,7 @@ def run(path):
     songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "levelMods": {"n": [str]}}
     difficulty = []
     table = []
+    info = []
     for i in range(3):
         for item in reader.readSchema(songBase_schema):
             item["songId"] = item["songId"][:-2]
@@ -94,21 +95,26 @@ def run(path):
             for i in range(len(item["difficulty"])):
                 item["difficulty"][i] = round(item["difficulty"][i], 1)
             difficulty.append([item["songId"]] + item["difficulty"])
+            info.append((item["songId"], item["songName"], item["composer"], item["illustrator"], *item["charter"]))
             table.append((item["songId"], item["songName"], *list(map(str, item["difficulty"])), item["composer"], item["illustrator"], *item["charter"]))
     reader.readSchema(songBase_schema)
 
     print(difficulty)
-    print(table)
+    print(info)
     
-    with open("difficulty.csv", "w", encoding="utf8") as f:
-        for item in difficulty:
-            f.write("\t".join(map(str, item)))
-            f.write("\n")
+    with open("difficulty.csv", "w", encoding="utf8", newline='') as f:
+        writer = csv.writer(f)
+        for i in difficulty:
+            writer.writerow(i)
 
-    with open('info.csv', 'w', encoding='utf-8', newline='') as f:
+    with open('info_new.csv', 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         for i in table:
             writer.writerow(i)
+
+    with open('info.csv', 'w', encoding='utf-8') as f:
+        for i in info:
+            f.write('\\'.join(i) + '\n')
 '''
     key_schema = {"key": str, "a": int, "type": int, "b": int}
     single = []
