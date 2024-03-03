@@ -80,6 +80,7 @@ def run(path):
     #    f.write(reader.data)
     reader.position = information.index(b"\x16\x00\x00\x00Glaciaxion.SunsetRay.0\x00\x00\n") - 4
     songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "levelMods": {"n": [str]}}
+    difficulty = []
     table = []
     for i in range(3):
         for item in reader.readSchema(songBase_schema):
@@ -92,10 +93,17 @@ def run(path):
                 item["charter"].pop()
             for i in range(len(item["difficulty"])):
                 item["difficulty"][i] = round(item["difficulty"][i], 1)
+            difficulty.append([item["songId"]] + item["difficulty"])
             table.append((item["songId"], item["songName"], *list(map(str, item["difficulty"])), item["composer"], item["illustrator"], *item["charter"]))
     reader.readSchema(songBase_schema)
 
+    print(difficulty)
     print(table)
+    
+    with open("difficulty.csv", "w", encoding="utf8") as f:
+        for item in difficulty:
+            f.write("\t".join(map(str, item)))
+            f.write("\n")
 
     with open('info.csv', 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
