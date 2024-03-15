@@ -2,7 +2,7 @@ import os
 import csv
 def conv(path):
     infocsv = []
-    with open('info.csv', encoding='utf-8') as f:
+    with open('info_new.csv', encoding='utf-8') as f:
         reader = csv.reader(f)
         for i in reader:
             infocsv.append(i)

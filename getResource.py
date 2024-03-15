@@ -224,7 +224,7 @@ def run(path, c):
         conv_name.conv('Chart_AT')
     if config['music']:
         conv_name.conv('music')
-    if config['illustration']:
+    if config['Illustration']:
         conv_name.conv('illustration')
 if __name__=="__main__":
     c = ConfigParser()
