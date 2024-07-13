@@ -76,10 +76,10 @@ def run(path):
 
 
     reader = ByteReader(information)
-    #with open('data.hex', 'wb') as f:
-    #    f.write(reader.data)
+    with open('data.hex', 'wb') as f:
+        f.write(reader.data)
     reader.position = information.index(b"\x16\x00\x00\x00Glaciaxion.SunsetRay.0\x00\x00\n") - 4
-    songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "levelMods": {"n": [str]}}
+    songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "magic": int, "levelMods": {"n": [str]}}
     difficulty = []
     table = []
     info = []
