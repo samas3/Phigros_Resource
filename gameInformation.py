@@ -95,7 +95,7 @@ def run(path):
             for i in range(len(item["difficulty"])):
                 item["difficulty"][i] = round(item["difficulty"][i], 1)
             difficulty.append([item["songId"]] + item["difficulty"])
-            info.append((item["songId"], item["songName"].replace('\xa0', ' ').strip(), item["composer"], item["illustrator"], *item["charter"]))
+            info.append((item["songId"], item["songName"], item["composer"], item["illustrator"], *item["charter"]))
             table.append((item["songId"], item["songName"].replace('\xa0', ' ').strip(), *list(map(str, item["difficulty"])), item["composer"], item["illustrator"], *item["charter"]))
     reader.readSchema(songBase_schema)
 
