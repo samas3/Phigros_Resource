@@ -21,7 +21,8 @@ with open(file1, 'r', encoding='utf-8') as f:
             if row[0] in dic2:
                 dic1[row[0]] = row[1:1 + len(dic2[row[0]])]
             else:
-                print(f'{row[0]} not found in info_new.csv')
+                pass
+                #print(f'{row[0]} not found in info_new.csv')
 diff = {}
 for key in dic1:
     if key in dic2:
@@ -29,7 +30,7 @@ for key in dic1:
             if dic1[key][i] != dic2[key][i]:
                 print(f'{key} {["EZ","HD","IN","AT"][i]}: {dic1[key][i]} -> {dic2[key][i]}')
                 diff[key + str(i)] = dic2[key][i]
-print('修改后的文件写入infos_new.csv')
+print('write into infos_new.csv')
 with open('infos_new.csv', 'w', encoding='utf-8', newline='') as f:
     with open(file1, 'r', encoding='utf-8') as f1:
         reader = csv.reader(f1)
