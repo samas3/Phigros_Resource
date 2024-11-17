@@ -53,11 +53,11 @@ class ByteReader:
                     item[key] = self.readSchema(value)
                 else:
                     raise Exception("无")
-                print(key, item[key])
+                #print(key, item[key])
             result.append(item)
         return result
 
-def run(path):
+def run(path, config):
     env = Environment()
     with zipfile.ZipFile(path) as apk:
         with apk.open("assets/bin/Data/globalgamemanagers.assets") as f:
@@ -122,7 +122,7 @@ def run(path):
     with open('info.csv', 'w', encoding='utf-8') as f:
         for i in info:
             f.write('\\'.join(i) + '\n')
-'''
+    '''
     key_schema = {"key": str, "a": int, "type": int, "b": int}
     single = []
     illustration = []
@@ -136,35 +136,37 @@ def run(path):
             f.write("%s\n" % item)
     with open("illustration.txt", "w", encoding="utf8") as f:
         for item in illustration:
-            f.write("%s\n" % item)
+            f.write("%s\n" % item)'''
+    if config['collection']:
+        reader = ByteReader(collection)
+        collection_schema = {1: (int, int, int, str, str, str), "key": str, "index": int, 2: (int,), "title": str, 3: (str, str, str, str)}
+        D = {}
+        for item in reader.readSchema(collection_schema):
+            if item["key"] in D:
+                D[item["key"]][1] = item["index"]
+            else:
+                D[item["key"]] = [item["title"], item["index"]]
+        with open("collection.csv", "w", encoding="utf8") as f:
+            for key, value in D.items():
+                f.write("%s,%s,%s\n" % (key, value[0], value[1]))
 
-    reader = ByteReader(collection)
-    collection_schema = {1: (int, int, int, str, str, str), "key": str, "index": int, 2: (int,), "title": str, 3: (str, str, str, str)}
-    D = {}
-    for item in reader.readSchema(collection_schema):
-        if item["key"] in D:
-            D[item["key"]][1] = item["index"]
-        else:
-            D[item["key"]] = [item["title"], item["index"]]
-    with open("collection.csv", "w", encoding="utf8") as f:
-        for key, value in D.items():
-            f.write("%s,%s,%s\n" % (key, value[0], value[1]))
+    if config['avatar']:
+        avatar_schema = {1: (int, int, int, str, int, str), "id": str, "file": str}
+        table = reader.readSchema(avatar_schema)
+        with open("avatar.txt", "w", encoding="utf8") as f:
+            for item in table:
+                f.write(item["id"])
+                f.write("\n")
+        with open("avatar.csv", "w") as f:
+            for item in table:
+                f.write("%s,%s\n" % (item["id"], item["file"][7:]))
 
-    avatar_schema = {1: (int, int, int, str, int, str), "id": str, "file": str}
-    table = reader.readSchema(avatar_schema)
-    with open("avatar.txt", "w", encoding="utf8") as f:
-        for item in table:
-            f.write(item["id"])
-            f.write("\n")
-    with open("avatar.csv", "w") as f:
-        for item in table:
-            f.write("%s,%s\n" % (item["id"], item["file"][7:]))
-
-    reader = ByteReader(tips[8:])
-    with open("tips.txt", "w", encoding="utf8") as f:
-        for i in range(reader.readInt()):
-            f.write(reader.readString())
-            f.write("\n")'''
+    if config['tips']:
+        reader = ByteReader(tips[8:])
+        with open("tips.txt", "w", encoding="utf8") as f:
+            for i in range(reader.readInt()):
+                f.write(reader.readString())
+                f.write("\n")
             
 if __name__=="__main__":
     run(sys.argv[1])
