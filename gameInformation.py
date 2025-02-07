@@ -3,6 +3,7 @@ import struct
 import sys
 from UnityPy import Environment
 import zipfile
+import json
 
 
 
@@ -100,8 +101,7 @@ def run(path, config):
             table.append((item["songId"], item["songName"].replace('\xa0', ' ').strip(), *list(map(str, item["difficulty"])), item["composer"], item["illustrator"], *item["charter"]))
     reader.readSchema(songBase_schema)
 
-    print(difficulty)
-    print(info)
+    print(table)
     
     with open("difficulty.csv", "w", encoding="utf8", newline='') as f:
         writer = csv.writer(f)
@@ -118,6 +118,12 @@ def run(path, config):
                 else:
                     j[1] = 'Another Me - KALPA'
             writer.writerow(j)
+
+    with open('song.json', 'w', encoding='utf-8') as f:
+        lst = []
+        for i in table:
+            lst.append({'songsId': i[0] + '.0', 'songsName': i[1], 'difficulty': {'EZ': float(i[2]), 'HD': float(i[3]), 'IN': float(i[4]), 'AT': (0 if len(i) == 10 else float(i[5]))}})
+        json.dump(lst, f)
 
     with open('info.csv', 'w', encoding='utf-8') as f:
         for i in info:
