@@ -16,3 +16,5 @@ for i in os.listdir(path1):
         if os.path.isfile(os.path.join(path2, i)):
             if not compare_files(os.path.join(path1, i), os.path.join(path2, i)):
                 print(path1 + '/' + i, 'is different')
+        else:
+            print('New file:', os.path.join(path1, i))

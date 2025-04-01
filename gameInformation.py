@@ -69,17 +69,19 @@ def run(path, config):
         if obj.type.name != "MonoBehaviour":
             continue
         data = obj.read()
-        if data.m_Script.get_obj().read().name == "GameInformation":
+        name = data.m_Script.get_obj().read().name
+        if name == "GameInformation":
             information = data.raw_data.tobytes()
-        elif data.m_Script.get_obj().read().name == "GetCollectionControl":
+        elif name == "GetCollectionControl":
             collection = data.raw_data.tobytes()
-        elif data.m_Script.get_obj().read().name == "TipsProvider":
+        elif name == "TipsProvider":
             tips = data.raw_data.tobytes()
 
 
     reader = ByteReader(information)
     with open('data.hex', 'wb') as f:
         f.write(reader.data)
+
     reader.position = information.index(b"\x16\x00\x00\x00Glaciaxion.SunsetRay.0\x00\x00\n") - 4
     songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "levelMods": {"n": [str], "magic": int}, "magic": int}
     difficulty = []

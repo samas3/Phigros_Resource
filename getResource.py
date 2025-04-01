@@ -70,7 +70,7 @@ def save_music(path, music):
     queue_in.put((path, music.samples["music.wav"]))
     print("%f秒" % round(time.time() - t1, 4))
 
-classes = ClassIDType.TextAsset, ClassIDType.Sprite, ClassIDType.AudioClip
+classes = ClassIDType.TextAsset, ClassIDType.Texture2D, ClassIDType.AudioClip
 def save(key, entry):
     obj = entry.get_filtered_objects(classes)
     obj = next(obj).read()
@@ -83,19 +83,19 @@ def save(key, entry):
         queue_in.put(("avatar/%s.png" % key, bytesIO))
     elif config["Chart"] and key[-14:-7] == "/Chart_" and key[-5:] == ".json":
         queue_in.put(("Chart_%s/%s.json" % (key[-7:-5], key[:-14]), obj.script))
-    elif config["IllustrationBlur"] and key[-23:] == ".0/IllustrationBlur.png":
-        key = key[:-23]
+    elif config["IllustrationBlur"] and key.endswith("/IllustrationBlur.jpg"):
+        key = key[:key.find('/IllustrationBlur.jpg')]
         bytesIO = BytesIO()
         obj.image.save(bytesIO, "png")
         queue_in.put(("IllustrationBlur/%s.png" % key, bytesIO))
-    elif config["IllustrationLowRes"] and key[-25:] == ".0/IllustrationLowRes.png":
-        key = key[:-25]
+    elif config["IllustrationLowRes"] and key.endswith("/IllustrationLowRes.jpg"):
+        key = key[:key.find('/IllustrationLowRes.jpg')]
         pool.submit(save_image, "IllustrationLowRes/%s.png" % key, obj.image)
-    elif config["Illustration"] and key[-19:] == ".0/Illustration.png":
-        key = key[:-19]
+    elif config["Illustration"] and key.endswith("/Illustration.jpg"):
+        key = key[:key.find('/Illustration.jpg')]
         pool.submit(save_image, "Illustration/%s.png" % key, obj.image)
-    elif config["music"] and key[-10:] == "/music.wav":
-        key = key[:-12]
+    elif config["music"] and key.endswith("/music.wav"):
+        key = key[:key.find('/music.wav')]
         pool.submit(save_music, "music/%s.wav" % key, obj)
 
 def run(path, c):
@@ -209,7 +209,7 @@ def run(path, c):
                         env.load_file(apk.read("assets/aa/Android/%s" % entry), name=key)
                         continue
                     for id in l:
-                        if key.startswith("%s.0/" % id):
+                        if key.startswith("%s." % id):
                             env.load_file(apk.read("assets/aa/Android/%s" % entry), name=key)
                             break
             for ikey, ientry in env.files.items():
