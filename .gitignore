@@ -16,3 +16,4 @@ phira/
 __pycache__/
 data.hex
 song.json
+*.ini
