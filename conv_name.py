@@ -7,7 +7,7 @@ def conv(path):
         for i in reader:
             infocsv.append(i)
     dic = {}
-    changes = {'Cipher : /2&//<|0': 'Cipher', 'ρars/ey': 'ρarsley', 'Labyrinth in Kowloon: Walled World': 'Labyrinth in Kowloon Walled World', 'valor/starcross': 'valor_starcross'}
+    changes = {'Cipher : /2&//<|0': 'Cipher', 'ρars/ey': 'ρarsley', 'Labyrinth in Kowloon: Walled World': 'Labyrinth in Kowloon Walled World', 'valor/starcross': 'valor_starcross', 'Stardust:RAY': 'StardustRAY'}
     for i in infocsv:
         n1, n2 = i[:2]
         n1 = n1.strip()

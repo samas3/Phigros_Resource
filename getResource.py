@@ -80,23 +80,35 @@ def save(key, entry):
             key = avatar[key]
         bytesIO = BytesIO()
         obj.image.save(bytesIO, "png")
-        queue_in.put(("avatar/%s.png" % key, bytesIO))
+        path = "avatar/%s.png" % key
+        if not os.path.exists(path):
+            queue_in.put((path, bytesIO))
     elif config["Chart"] and key[-14:-7] == "/Chart_" and key[-5:] == ".json":
-        queue_in.put(("Chart_%s/%s.json" % (key[-7:-5], key[:-14]), obj.script))
+        path = "Chart_%s/%s.json" % (key[-7:-5], key[:-14])
+        if not os.path.exists(path):
+            queue_in.put((path, obj.script))
     elif config["IllustrationBlur"] and key.endswith("/IllustrationBlur.jpg"):
         key = key[:key.find('/IllustrationBlur.jpg')]
         bytesIO = BytesIO()
         obj.image.save(bytesIO, "png")
-        queue_in.put(("IllustrationBlur/%s.png" % key, bytesIO))
+        path = "IllustrationBlur/%s.png" % key
+        if not os.path.exists(path):
+            queue_in.put((path, bytesIO))
     elif config["IllustrationLowRes"] and key.endswith("/IllustrationLowRes.jpg"):
         key = key[:key.find('/IllustrationLowRes.jpg')]
-        pool.submit(save_image, "IllustrationLowRes/%s.png" % key, obj.image)
+        path = "IllustrationLowRes/%s.png" % key
+        if not os.path.exists(path):
+            pool.submit(save_image, path, obj.image)
     elif config["Illustration"] and key.endswith("/Illustration.jpg"):
         key = key[:key.find('/Illustration.jpg')]
-        pool.submit(save_image, "Illustration/%s.png" % key, obj.image)
+        path = "Illustration/%s.png" % key
+        if not os.path.exists(path):
+            pool.submit(save_image, path, obj.image)
     elif config["music"] and key.endswith("/music.wav"):
         key = key[:key.find('/music.wav')]
-        pool.submit(save_music, "music/%s.wav" % key, obj)
+        path = "music/%s.wav" % key
+        if not os.path.exists(path):
+            pool.submit(save_music, path, obj)
 
 def run(path, c):
     global config
