@@ -249,6 +249,8 @@ if __name__=="__main__":
         "IllustrationLowRes": types.getboolean("illustrationLowRes"),
         "Illustration": types.getboolean("illustration"),
         "music": types.getboolean("music"),
+        "collection": types.getboolean("collection"),
+        "tips": types.getboolean("tips"),
         "UPDATE": {
             "main_story": c["UPDATE"].getint("main_story"),
             "side_story": c["UPDATE"].getint("side_story"),

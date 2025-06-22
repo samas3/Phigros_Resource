@@ -10,14 +10,14 @@ for level in levels:
     os.mkdir("phira/%s" %level)
 
 infos = {}
-with open("info.tsv", encoding="utf8") as f:
+with open("info.csv", encoding="utf8") as f:
     while True:
         line = f.readline()
         if not line:
             break
         line = line[:-1].split("\t")
         infos[line[0]] = {"Name": line[1], "Composer": line[2], "Illustrator": line[3], "Chater": line[4:]}
-with open("difficulty.tsv", encoding="utf8") as f:
+with open("difficulty.csv", encoding="utf8") as f:
     while True:
         line = f.readline()
         if not line:

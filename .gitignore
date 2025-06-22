@@ -1,7 +1,6 @@
 *.apk
 *.obb
 *.csv
-*.txt
 avatar/
 Chart_EZ/
 Chart_HD/
@@ -17,3 +16,4 @@ __pycache__/
 data.hex
 song.json
 config.ini
+tips.txt
