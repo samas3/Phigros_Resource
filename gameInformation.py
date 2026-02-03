@@ -54,7 +54,7 @@ class ByteReader:
                     item[key] = self.readSchema(value)
                 else:
                     raise Exception("无")
-                #print(key, item[key])
+                # print(key, item[key])
             result.append(item)
         return result
 
@@ -83,11 +83,11 @@ def run(path, config):
         f.write(reader.data)
 
     reader.position = information.index(b"\x16\x00\x00\x00Glaciaxion.SunsetRay.0\x00\x00\n") - 4
-    songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "levelMods": {"n": [str], "magic": int}, "magic": int}
+    songBase_schema = {"songId": str, "songKey": str, "songName": str, "songTitle": str, "difficulty": [float], "illustrator": str, "charter": [str], "composer": str, "levels": [str], "previewTimeStart": float, "previewTimeEnd": float, "unlockList": {"unlockType": int, "unlockInfo": [str]}, "levelMods": {"n": int, "magic": int}, "magic": int}
     difficulty = []
     table = []
     info = []
-    for i in range(3):
+    for _ in range(3):
         for item in reader.readSchema(songBase_schema):
             item["songId"] = item["songId"][:-2]
             if len(item["levels"]) == 5:
