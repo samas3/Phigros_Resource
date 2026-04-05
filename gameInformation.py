@@ -145,7 +145,7 @@ def run(path, config):
     with open("illustration.txt", "w", encoding="utf8") as f:
         for item in illustration:
             f.write("%s\n" % item)'''
-    if config['collection']:
+    if config.get('collection', False):
         reader = ByteReader(collection)
         collection_schema = {1: (int, int, int, str, str, str), "key": str, "index": int, 2: (int,), "title": str, 3: (str, str, str, str)}
         D = {}
@@ -158,7 +158,7 @@ def run(path, config):
             for key, value in D.items():
                 f.write("%s,%s,%s\n" % (key, value[0], value[1]))
 
-    if config['avatar']:
+    if config.get('avatar', False):
         avatar_schema = {1: (int, int, int, str, int, str), "id": str, "file": str}
         table = reader.readSchema(avatar_schema)
         with open("avatar.txt", "w", encoding="utf8") as f:
@@ -169,7 +169,7 @@ def run(path, config):
             for item in table:
                 f.write("%s,%s\n" % (item["id"], item["file"][7:]))
 
-    if config['tips']:
+    if config.get('tips', False):
         reader = ByteReader(tips[8:])
         with open("tips.txt", "w", encoding="utf8") as f:
             for i in range(reader.readInt()):
@@ -177,4 +177,4 @@ def run(path, config):
                 f.write("\n")
             
 if __name__=="__main__":
-    run(sys.argv[1])
+    run(sys.argv[1], {})
